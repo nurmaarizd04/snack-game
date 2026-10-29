@@ -1,0 +1,349 @@
+:root {
+  --latar: #111830;
+  --panel: rgba(17, 24, 48, 0.82);
+  --teks: #f4f6ff;
+  --redup: #9aa6c8;
+  --hijau: #3ee8a5;
+  --ungu: #9b6bff;
+  --merah: #ff5d73;
+  --kuning: #ffd84d;
+  --gradasi: linear-gradient(135deg, var(--hijau), var(--ungu));
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  background:
+    radial-gradient(circle at 15% 10%, rgba(62, 232, 165, 0.16), transparent 40%),
+    radial-gradient(circle at 85% 90%, rgba(155, 107, 255, 0.2), transparent 45%),
+    var(--latar);
+  color: var(--teks);
+  font-family: "Fredoka", system-ui, sans-serif;
+  overscroll-behavior: none;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  /* Geser di mana saja untuk belok, bukan untuk scroll/zoom. */
+  touch-action: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  border: 0;
+}
+
+.aplikasi {
+  max-width: 520px;
+  min-height: 100dvh;
+  margin: 0 auto;
+  padding: max(12px, env(safe-area-inset-top)) 16px max(16px, env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+/* HUD */
+.hud {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.hud-skor {
+  display: flex;
+  flex-direction: column;
+  padding: 6px 14px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.06);
+  min-width: 92px;
+}
+
+.hud-label {
+  font-size: 12px;
+  color: var(--redup);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.hud-skor strong {
+  font-size: 24px;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+
+.hud-skor strong.naik {
+  animation: naik 0.3s ease-out;
+}
+
+@keyframes naik {
+  40% {
+    transform: scale(1.3);
+    color: var(--kuning);
+  }
+}
+
+.hud-tombol {
+  margin-left: auto;
+  display: flex;
+  gap: 8px;
+}
+
+.ikon {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.08);
+  font-size: 20px;
+}
+
+.ikon:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+/* Musik mati: ikon redup dan dicoret. */
+.ikon.mati {
+  position: relative;
+  opacity: 0.5;
+}
+
+.ikon.mati::after {
+  content: "";
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  top: 50%;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--merah);
+  transform: rotate(-35deg);
+}
+
+/* Pesan singkat di atas papan */
+.pesan {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  z-index: 2;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 15px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, -12px) scale(0.9);
+  transition:
+    opacity 0.2s,
+    transform 0.2s;
+}
+
+.pesan.tampil {
+  opacity: 1;
+  transform: translate(-50%, 0) scale(1);
+}
+
+.pesan.bahaya {
+  background: rgba(255, 93, 115, 0.92);
+  color: #fff;
+  box-shadow: 0 6px 20px rgba(255, 93, 115, 0.45);
+}
+
+.pesan.hebat {
+  background: rgba(255, 216, 77, 0.95);
+  color: #2a1d00;
+  box-shadow: 0 6px 20px rgba(255, 216, 77, 0.4);
+}
+
+/* Papan */
+.papan {
+  position: relative;
+  width: min(100%, calc(100dvh - 120px));
+  aspect-ratio: 1;
+  border-radius: 20px;
+  overflow: hidden;
+  touch-action: none;
+  box-shadow:
+    0 0 0 3px rgba(255, 255, 255, 0.08),
+    0 18px 50px rgba(0, 0, 0, 0.45);
+}
+
+.papan[data-mode="dinding"] {
+  box-shadow:
+    0 0 0 3px var(--merah),
+    0 0 24px rgba(255, 93, 115, 0.45),
+    0 18px 50px rgba(0, 0, 0, 0.45);
+}
+
+.papan[data-mode="klasik"] {
+  box-shadow:
+    0 0 0 3px rgba(62, 232, 165, 0.55),
+    0 0 24px rgba(62, 232, 165, 0.25),
+    0 18px 50px rgba(0, 0, 0, 0.45);
+}
+
+canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Layar menu / jeda / selesai */
+.layar {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 20px;
+  text-align: center;
+  background: var(--panel);
+  backdrop-filter: blur(6px);
+  transition: opacity 0.2s;
+}
+
+.layar.tersembunyi {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.judul {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: clamp(44px, 13vw, 64px);
+  font-weight: 700;
+}
+
+.judul-teks {
+  background: var(--gradasi);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.judul-ikon {
+  display: inline-block;
+  font-size: 0.85em;
+  animation: goyang 2.4s ease-in-out infinite;
+}
+
+@keyframes goyang {
+  50% {
+    transform: rotate(-12deg) translateY(-4px);
+  }
+}
+
+.layar h2 {
+  margin: 0;
+  font-size: 36px;
+}
+
+.sub {
+  margin: 0;
+  color: var(--redup);
+  font-size: 15px;
+}
+
+.pilih-mode {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  width: min(100%, 320px);
+  margin-top: 6px;
+}
+
+.pilih-mode button {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 12px 8px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.06);
+  outline: 2px solid transparent;
+  transition:
+    outline-color 0.15s,
+    background 0.15s;
+}
+
+.pilih-mode small {
+  color: var(--redup);
+  font-size: 12px;
+}
+
+.pilih-mode button[aria-checked="true"] {
+  background: rgba(62, 232, 165, 0.12);
+  outline-color: var(--hijau);
+}
+
+.pilih-mode button[data-mode="dinding"][aria-checked="true"] {
+  background: rgba(255, 93, 115, 0.12);
+  outline-color: var(--merah);
+}
+
+.utama {
+  min-width: 180px;
+  padding: 14px 28px;
+  border-radius: 999px;
+  background: var(--gradasi);
+  color: #0d1326;
+  font-size: 20px;
+  font-weight: 700;
+  box-shadow: 0 8px 24px rgba(62, 232, 165, 0.3);
+  transition: transform 0.1s;
+}
+
+.utama:active,
+.kedua:active {
+  transform: scale(0.96);
+}
+
+.kedua {
+  min-width: 140px;
+  padding: 10px 22px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  font-size: 16px;
+}
+
+.petunjuk {
+  margin: 4px 0 0;
+  color: var(--redup);
+  font-size: 13px;
+}
+
+.skor-akhir {
+  margin: 0;
+  font-size: 56px;
+  font-weight: 700;
+  line-height: 1;
+  background: var(--gradasi);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.rekor {
+  margin: 0;
+  color: var(--kuning);
+  font-weight: 600;
+  animation: goyang 1s ease-in-out infinite;
+}
+
+.rekor.tersembunyi {
+  display: none;
+}

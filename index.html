@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
+    <meta name="theme-color" content="#111830" />
+    <meta name="description" content="Game ular klasik versi warna-warni. Makan buah, kejar bintang, jangan tabrak badan sendiri!" />
+    <title>Ular</title>
+    <link rel="icon" href="/ikon.svg" type="image/svg+xml" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <main class="aplikasi">
+      <header class="hud">
+        <div class="hud-skor">
+          <span class="hud-label">Skor</span>
+          <strong id="skor">0</strong>
+        </div>
+        <div class="hud-skor">
+          <span class="hud-label">Terbaik</span>
+          <strong id="terbaik">0</strong>
+        </div>
+        <div class="hud-tombol">
+          <button type="button" class="ikon" id="tombol-musik" aria-label="Matikan musik">🎵</button>
+          <button type="button" class="ikon" id="tombol-suara" aria-label="Matikan efek suara">🔊</button>
+          <button type="button" class="ikon" id="tombol-jeda" aria-label="Jeda" hidden>⏸</button>
+        </div>
+      </header>
+
+      <div class="papan" id="papan">
+        <canvas id="kanvas" aria-label="Papan permainan"></canvas>
+        <div class="pesan" id="pesan" role="status" aria-live="polite"></div>
+
+        <section class="layar" id="layar-menu">
+          <h1 class="judul"><span class="judul-ikon" aria-hidden="true">🐍</span><span class="judul-teks">Ular</span></h1>
+          <p class="sub">Makan buah, kejar ⭐, awas ular musuh!</p>
+          <div class="pilih-mode" role="radiogroup" aria-label="Mode permainan">
+            <button type="button" role="radio" data-mode="klasik">
+              <strong>Klasik</strong>
+              <small>Tembus tepi layar</small>
+            </button>
+            <button type="button" role="radio" data-mode="dinding">
+              <strong>Dinding</strong>
+              <small>Tabrak tepi = kalah</small>
+            </button>
+          </div>
+          <button type="button" class="utama" id="tombol-main">Main</button>
+          <p class="petunjuk" id="petunjuk"></p>
+        </section>
+
+        <section class="layar tersembunyi" id="layar-jeda">
+          <h2>Jeda</h2>
+          <button type="button" class="utama" id="tombol-lanjut">Lanjut</button>
+          <button type="button" class="kedua" data-ke-menu>Menu</button>
+        </section>
+
+        <section class="layar tersembunyi" id="layar-selesai">
+          <h2 id="judul-selesai">Game Over</h2>
+          <p class="skor-akhir"><span id="skor-akhir">0</span></p>
+          <p class="rekor tersembunyi" id="rekor">🏆 Rekor baru!</p>
+          <p class="sub" id="info-terbaik"></p>
+          <button type="button" class="utama" id="tombol-ulang">Main lagi</button>
+          <button type="button" class="kedua" data-ke-menu>Menu</button>
+        </section>
+      </div>
+    </main>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

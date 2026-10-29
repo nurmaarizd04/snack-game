@@ -1,0 +1,16 @@
+{
+  "name": "Ular",
+  "short_name": "Ular",
+  "description": "Game ular klasik versi warna-warni",
+  "lang": "id",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#111830",
+  "theme_color": "#111830",
+  "icons": [
+    { "src": "/ikon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "/ikon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/ikon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
